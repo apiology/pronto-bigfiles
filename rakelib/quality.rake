@@ -7,3 +7,5 @@ Quality::Rake::Task.new do |task|
   task.skip_tools = ['reek']
   task.output_dir = 'metrics'
 end
+
+task quality: %i[pronto update_bundle_audit]
