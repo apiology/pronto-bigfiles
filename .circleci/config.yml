@@ -8,6 +8,7 @@ jobs:
       - checkout
       - type: cache-restore
         key: pronto-bigfiles-{{ checksum "pronto-bigfiles.gemspec" }}-{{ checksum "Gemfile" }}
+      - run: gem install bundler
       - run: bundle install --path vendor/bundle --jobs=4
       - run: bundle exec rake clear_metrics
       - run: bundle exec rake --jobs=4 test pronto-bigfiles
