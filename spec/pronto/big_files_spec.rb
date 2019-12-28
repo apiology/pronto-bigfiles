@@ -44,8 +44,7 @@ describe Pronto::BigFiles do
       let(:messages) { [message_a, message_b] }
 
       before do
-        allow(patch_validator).to receive(:valid_patch?).with(patch)
-                                                        .and_return(true)
+        # TODO: require bigfiles_result here
         allow(patch_inspector).to receive(:inspect_patch).with(patch) do
           messages
         end
@@ -57,17 +56,6 @@ describe Pronto::BigFiles do
           expect(patch_inspector).to have_received(:inspect_patch).with(patch)
         end
       end
-    end
-
-    context 'with a single patch on a binary file' do
-      let(:patches) { [patch] }
-
-      before do
-        allow(patch_validator).to receive(:valid_patch?).with(patch)
-                                                        .and_return(false)
-      end
-
-      it { is_expected.to eq([]) }
     end
 
     context 'with two patches, the second of which returns two issues' do

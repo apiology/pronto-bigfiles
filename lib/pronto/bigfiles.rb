@@ -21,19 +21,12 @@ module Pronto
 
     class Error < StandardError; end
     def run
+      # TODO: This should calculate a bigfiles result and pass it around
       @patches.flat_map { |patch| inspect_patch(patch) }
     end
 
-    def valid_patch?(patch)
-      @patch_validator.valid_patch?(patch)
-    end
-
     def inspect_patch(patch)
-      if valid_patch?(patch)
-        @patch_inspector.inspect_patch(patch)
-      else
-        []
-      end
+      @patch_inspector.inspect_patch(patch)
     end
   end
 end
