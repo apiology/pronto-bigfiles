@@ -11,3 +11,6 @@ spec:
 
 rubocop:
 	@bundle exec rake rubocop
+
+punchlist:
+	@bundle exec rake punchlist
