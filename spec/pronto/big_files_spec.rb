@@ -5,15 +5,11 @@ require 'pronto/bigfiles'
 
 describe Pronto::BigFiles do
   let(:commit) { instance_double(String, 'commit') }
-  # let(:patch_inspector) { instance_double(Pronto::BigFiles::PatchInspector) } # TODO
-  let(:patch_inspector) { double('patch_inspector') } # TODO
-  # let(:patch_validator) { instance_double(Pronto::BigFiles::PatchValidator) } # TODO
-  let(:patch_validator) { double('patch_validator') } # TODO
+  let(:patch_inspector) { instance_double(Pronto::BigFiles::PatchInspector) }
   let(:pronto_bigfiles) do
     described_class.new(patches, commit,
                         bigfiles_driver: bigfiles_driver,
-                        patch_inspector: patch_inspector,
-                        patch_validator: patch_validator)
+                        patch_inspector: patch_inspector)
   end
 
   # let(:bigfiles_driver) do # TODO
@@ -68,10 +64,6 @@ describe Pronto::BigFiles do
       let(:messages_2) { [message_a, message_b] }
 
       before do
-        allow(patch_validator).to receive(:valid_patch?).with(patch_1)
-                                                        .and_return(true)
-        allow(patch_validator).to receive(:valid_patch?).with(patch_2)
-                                                        .and_return(true)
         allow(patch_inspector).to receive(:inspect_patch).with(patch_1) do
           messages_1
         end

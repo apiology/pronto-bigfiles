@@ -12,11 +12,9 @@ module Pronto
     def initialize(patches, commit = nil,
                    bigfiles_driver: BigFilesDriver.new,
                    patch_inspector: PatchInspector.new(bigfiles_driver:
-                                                         bigfiles_driver),
-                   patch_validator: PatchValidator.new)
+                                                         bigfiles_driver))
       super(patches, commit)
       @patch_inspector = patch_inspector
-      @patch_validator = patch_validator
     end
 
     class Error < StandardError; end
