@@ -6,5 +6,8 @@ rvm:
   - ruby-2.5
   - ruby-2.6
   - ruby-2.7
-  - jruby-head
+  # JRuby error with native code build - possibly can be overcome?
+  # checking for main() in -lstdc++... RuntimeError: The compiler failed to generate
+  # https://travis-ci.com/apiology/pronto-punchlist/jobs/264907931
+  # - jruby-head
   - ruby-head
