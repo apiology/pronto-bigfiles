@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/pronto-bigfiles
+    docker:
+      - image: apiology/circleci-ruby:latest
+    steps:
+      - checkout
+      - type: cache-restore
+        key: pronto-bigfiles-{{ checksum "pronto-bigfiles.gemspec" }}-{{ checksum "Gemfile" }}
+      - run: bundle install --path vendor/bundle --jobs=4
+      - run: bundle exec rake clear_metrics
+      - run: bundle exec rake --jobs=4 test pronto-bigfiles
+      - run:
+          command: bundle exec rake after_test_success
+          filters:
+            branches:
+              only: master
+      - type: cache-save
+        key: pronto-bigfiles-{{ checksum "pronto-bigfiles.gemspec" }}-{{ checksum "Gemfile" }}
+        paths:
+          - "vendor/bundle"
