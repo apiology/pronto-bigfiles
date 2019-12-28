@@ -4,14 +4,14 @@ require_relative 'lib/pronto/bigfiles/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'pronto-bigfiles'
-  spec.version       = Pronto::Bigfiles::VERSION
+  spec.version       = Pronto::BigFilesVersion::VERSION
   spec.authors       = ['Vince Broz']
   spec.email         = ['vince@broz.cc']
 
   spec.summary       = 'Pronto plugin for the bigfiles gem'
   spec.description   = <<~DESCRIPTION
     Performs incremental quality reporting for the bigfiles gem.
-    Bigfiles is a simple tool to find the largest source files in your
+    BigFiles is a simple tool to find the largest source files in your
     project; this gem plugs in with the 'pronto' gem, which does
     incremental reporting using a variety of quality tools.
   DESCRIPTION
@@ -39,6 +39,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'pronto'
 
   spec.add_development_dependency 'bundler', '~> 2.0'
+  spec.add_development_dependency 'pronto-punchlist'
+  spec.add_development_dependency 'pronto-reek'
+  spec.add_development_dependency 'pronto-rubocop'
   spec.add_development_dependency 'quality', '~> 36'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'

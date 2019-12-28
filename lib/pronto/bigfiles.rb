@@ -1,10 +1,39 @@
 # frozen_string_literal: true
 
-require 'pronto/bigfiles/version'
+require 'pronto/punchlist/version'
+require 'pronto/punchlist/patch_inspector'
+require 'pronto/punchlist/driver'
+require 'pronto/punchlist/patch_validator'
+require 'pronto'
 
 module Pronto
-  module Bigfiles
+  # Performs incremental quality reporting for the bigfiles gem
+  class BigFiles < Runner
+    def initialize(patches, commit = nil,
+                   bigfiles_driver: BigFilesDriver.new,
+                   patch_inspector: PatchInspector.new(bigfiles_driver:
+                                                         bigfiles_driver),
+                   patch_validator: PatchValidator.new)
+      super(patches, commit)
+      @patch_inspector = patch_inspector
+      @patch_validator = patch_validator
+    end
+
     class Error < StandardError; end
-    # Your code goes here...
+    def run
+      @patches.flat_map { |patch| inspect_patch(patch) }
+    end
+
+    def valid_patch?(patch)
+      @patch_validator.valid_patch?(patch)
+    end
+
+    def inspect_patch(patch)
+      if valid_patch?(patch)
+        @patch_inspector.inspect_patch(patch)
+      else
+        []
+      end
+    end
   end
 end
