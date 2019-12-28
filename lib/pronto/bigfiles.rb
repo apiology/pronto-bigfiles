@@ -1,4 +1,6 @@
-require "pronto/bigfiles/version"
+# frozen_string_literal: true
+
+require 'pronto/bigfiles/version'
 
 module Pronto
   module Bigfiles

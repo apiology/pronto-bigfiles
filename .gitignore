@@ -1,7 +1,6 @@
 /.bundle/
 /.yardoc
 /_yardoc/
-/coverage/
 /doc/
 /pkg/
 /spec/reports/
@@ -9,3 +8,8 @@
 
 # rspec failure tracking
 .rspec_status
+/coverage/.resultset.json
+/coverage/.resultset.json.lock
+/coverage/assets/
+/coverage/index.html
+/pkg
