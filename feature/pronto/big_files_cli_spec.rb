@@ -57,8 +57,6 @@ describe Pronto::BigFiles do
       end
     end
 
-    # TODO: Add specs to match policy below
-    #
     # Policy: We complain iff:
     #
     # a file is added to
@@ -73,7 +71,6 @@ describe Pronto::BigFiles do
         "one_line_added_above_limit.rb:302 W: This file, one of the 3 largest in the project, increased in size to 302 lines.  Is it complex enough to refactor?\n"
       end
 
-      # TODO: Replicate net added to aspect
       let(:example_files_committed) do
         {
           'one_line_added_above_limit.rb' => ("\n" * 301),
@@ -90,71 +87,6 @@ describe Pronto::BigFiles do
         expect(out).to eq(expected_output)
         expect(exit_code).to eq(0)
       end
-    end
-
-    context 'when single file removed from ' \
-            'that is one of the three complained about, ' \
-            'and is above limit' do
-      let(:expected_output) do
-        ''
-      end
-
-      let(:example_files_committed) do
-        {
-          'one_line_removed_above_limit.rb' => ("\n" * 302),
-        }
-      end
-
-      let(:example_files_staged) do
-        {
-          'one_line_removed_above_limit.rb' => ("\n" * 301),
-        }
-      end
-
-      it 'does not complain' do
-        expect(out).to eq(expected_output)
-        expect(exit_code).to eq(0)
-      end
-    end
-
-    context 'when single file net added to ' \
-            'that is not one of the three complained about, ' \
-            'and is above limit' do
-      let(:expected_output) do
-        ''
-      end
-
-      let(:example_files_committed) do
-        {
-          'existing_large_file_1.rb' => ("\n" * 100),
-          'existing_large_file_2.rb' => ("\n" * 100),
-          'existing_large_file_3.rb' => ("\n" * 100),
-          'small_large_file_one_line_added.rb' => ("\n" * 50),
-        }
-      end
-
-      let(:example_files_staged) do
-        {
-          'small_large_file_one_line_added.rb' => ("\n" * 51),
-        }
-      end
-
-      it 'does not complain' do
-        expect(out).to eq(expected_output)
-        expect(exit_code).to eq(0)
-      end
-    end
-
-    context 'when single file untouched ' \
-            'that is not one of the three complained about, ' \
-            'and is above limit' do
-      xit 'does not complain'
-    end
-
-    context 'when single file net added to ' \
-            'that is one of the three complained about, ' \
-            'but is below limit of 300' do
-      xit 'does not complain'
     end
   end
 end
