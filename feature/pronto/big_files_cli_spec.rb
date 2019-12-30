@@ -43,10 +43,12 @@ describe Pronto::BigFiles do
       Dir.mktmpdir do |dir|
         Dir.chdir(dir) do
           system('git init')
-          File.write('README.md', 'Initial commit contents')
+          example_files_committed.each do |filename, contents|
+            File.write(filename, contents)
+          end
           system('git add .')
           system('git commit -m "First commit"')
-          example_files.each do |filename, contents|
+          example_files_staged.each do |filename, contents|
             File.write(filename, contents)
           end
           system('git add .')
@@ -68,14 +70,18 @@ describe Pronto::BigFiles do
             'that is one of the three complained about, ' \
             'and is above limit' do
       let(:expected_output) do
-        'blah'
+        'more_interesting.rb:1: '
       end
 
-      let(:example_files) do  # TODO get this to match
+      let(:example_files_committed) do
         {
-          'more_interesting.rb' =>
-          "puts 'hello world'\n# TOD" \
-          "O: Write more code",
+          'one_line_added_above_limit.rb' => ("\n" * 301),
+        }
+      end
+
+      let(:example_files_staged) do
+        {
+          'one_line_added_above_limit.rb' => ("\n" * 302),
         }
       end
 
@@ -92,6 +98,12 @@ describe Pronto::BigFiles do
     end
 
     context 'when single file added to ' \
+            'that is not one of the three complained about, ' \
+            'and is above limit' do
+      xit 'does not complain'
+    end
+
+    context 'when single file untouched ' \
             'that is not one of the three complained about, ' \
             'and is above limit' do
       xit 'does not complain'
