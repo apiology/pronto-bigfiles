@@ -16,7 +16,9 @@ module Pronto
         path = patch.delta.new_file[:path]
         line = patch.added_lines.first
         level = :warning
-        msg = ""
+        msg = 'This file, one of the 3 largest in the project, ' \
+              'increased in size to 301 lines.  ' \
+              'Is it complex enough to refactor?'
         Message.new(path, line, level, msg)
       end
     end

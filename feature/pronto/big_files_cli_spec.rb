@@ -70,7 +70,7 @@ describe Pronto::BigFiles do
             'that is one of the three complained about, ' \
             'and is above limit' do
       let(:expected_output) do
-        'more_interesting.rb:1: '
+        'one_line_added_above_limit.rb:302 W: This file, one of the 3 largest in the project, increased in size to 301 lines'
       end
 
       let(:example_files_committed) do
