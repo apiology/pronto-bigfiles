@@ -7,6 +7,16 @@ Quality::Rake::Task.new do |task|
   # cane deprecated in favor of rubocop, reek rarely actionable
   task.skip_tools = %w[reek cane eslint jscs flake8]
   task.output_dir = 'metrics'
+  task.punchlist_regexp = 'XX' \
+                          'X|TOD' \
+                          'O|FIXM' \
+                          'E|OPTIMIZ' \
+                          'E|HAC' \
+                          'K|REVIE' \
+                          'W|LATE' \
+                          'R|FIXI' \
+                          'T|xi' \
+                          't '
 end
 
 task quality: %i[pronto update_bundle_audit]
