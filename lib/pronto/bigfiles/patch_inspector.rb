@@ -10,7 +10,11 @@ module Pronto
       end
 
       def inspect_patch(patch)
-
+        path = patch.delta.new_file[:path]
+        line = patch.added_lines.first
+        level = :warning
+        msg = ""
+        Message.new(path, line, level, msg)
       end
     end
   end
