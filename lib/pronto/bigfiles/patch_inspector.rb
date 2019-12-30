@@ -5,12 +5,12 @@ require 'pronto'
 module Pronto
   # Performs incremental quality reporting for the bigfiles gem
   class BigFiles < Runner
+    # Creates Pronto warning message objects
     class MessageCreator
       attr_reader :patch
 
       # TODO: accept in bigfiles threshold
-      def initialize
-      end
+      def initialize; end
 
       def create_message(patch, num_lines)
         path = patch.delta.new_file[:path]
@@ -24,6 +24,7 @@ module Pronto
       end
     end
 
+    # Inspects patches and returns a Pronto::Message class when appropriate
     class PatchInspector
       def initialize(bigfiles_result,
                      message_creator_class: MessageCreator)

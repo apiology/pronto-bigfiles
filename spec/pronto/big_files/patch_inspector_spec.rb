@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pronto/bigfiles/patch_inspector'
 
 describe Pronto::BigFiles::PatchInspector do

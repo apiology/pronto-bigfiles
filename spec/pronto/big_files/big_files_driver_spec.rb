@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pronto/bigfiles/bigfiles_driver'
 require 'bigfiles/inspector'
 
