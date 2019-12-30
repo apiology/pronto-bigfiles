@@ -3,10 +3,11 @@ require 'pronto/bigfiles/patch_inspector'
 describe Pronto::BigFiles::MessageCreator do
   describe '#create_message' do
     subject(:created_message) do
-      described_class.new(patch).create_message
+      described_class.new(bigfiles_result).create_message(patch)
     end
 
     let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
+    let(:bigfiles_result) { instance_double(Array, 'bigfiles_result') }
 
     let(:first_added_line) do
       instance_double(Pronto::Git::Line, 'first_added_line')

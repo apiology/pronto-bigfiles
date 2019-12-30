@@ -8,11 +8,10 @@ module Pronto
     class MessageCreator
       attr_reader :patch
 
-      def initialize(patch)
-        @patch = patch
+      def initialize(_)
       end
 
-      def create_message
+      def create_message(patch)
         path = patch.delta.new_file[:path]
         line = patch.added_lines.first
         level = :warning
@@ -27,10 +26,11 @@ module Pronto
       def initialize(bigfiles_result,
                      message_creator_class: MessageCreator)
         @message_creator_class = message_creator_class
+        @message_creator = @message_creator_class.new(bigfiles_result)
       end
 
       def inspect_patch(patch)
-        @message_creator_class.new(patch).create_message
+        @message_creator.create_message(patch)
       end
     end
   end

@@ -14,7 +14,7 @@ describe Pronto::BigFiles::PatchInspector do
   let(:message) { instance_double(Pronto::Message, 'message') }
 
   before do
-    allow(message_creator_class).to receive(:new).with(patch) do
+    allow(message_creator_class).to receive(:new).with(bigfiles_result) do
       message_creator
     end
     allow(message_creator).to receive(:create_message) { message }
