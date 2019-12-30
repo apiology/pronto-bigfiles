@@ -3,7 +3,7 @@ require 'pronto/bigfiles/patch_inspector'
 describe Pronto::BigFiles::MessageCreator do
   describe '#create_message' do
     subject(:created_message) do
-      described_class.new.create_message(patch)
+      described_class.new.create_message(patch, num_lines)
     end
 
     let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
@@ -16,6 +16,7 @@ describe Pronto::BigFiles::MessageCreator do
     let(:delta) { instance_double(Rugged::Diff::Delta, 'delta') }
     let(:new_file_path) { instance_double(String, 'new_file_path') }
     let(:new_file) { { path: new_file_path } }
+    let(:num_lines) { 123 }
 
     before do
       allow(patch).to receive(:added_lines) { added_lines }
@@ -35,9 +36,9 @@ describe Pronto::BigFiles::MessageCreator do
 
     it 'gives a good message' do
       expect(created_message.msg)
-        .to eq('This file, one of the 3 largest in the project, ' \
-               'increased in size to 301 lines.  ' \
-               'Is it complex enough to refactor?')
+        .to eq("This file, one of the 3 largest in the project, " \
+               "increased in size to #{num_lines} lines.  " \
+               "Is it complex enough to refactor?")
     end
   end
 end

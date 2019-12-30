@@ -19,22 +19,30 @@ describe Pronto::BigFiles::PatchInspector do
   let(:message) { instance_double(Pronto::Message, 'message') }
   let(:delta) { instance_double(Rugged::Diff::Delta, 'delta') }
   let(:new_file) { { path: new_file_path } }
+  let(:num_lines_a) { instance_double(Integer, 'num_lines_a') }
+  let(:num_lines_b) { instance_double(Integer, 'num_lines_b') }
+  let(:num_lines_d) { instance_double(Integer, 'num_lines_d') }
 
   before do
     allow(message_creator_class).to receive(:new).with(no_args) do
       message_creator
     end
-    allow(message_creator).to receive(:create_message) { message }
+    allow(message_creator).to receive(:create_message).with(patch, num_lines) do
+      message
+    end
     allow(patch).to receive(:additions) { additions }
     allow(patch).to receive(:deletions) { deletions }
     allow(bigfile_a).to receive(:filename) { filename_a }
     allow(bigfile_b).to receive(:filename) { filename_b }
     allow(patch).to receive(:delta) { delta }
     allow(delta).to receive(:new_file) { new_file }
+    allow(bigfile_a).to receive(:num_lines) { num_lines_a }
+    allow(bigfile_b).to receive(:num_lines) { num_lines_b }
   end
 
   context 'with patch to file not in report' do
     let(:new_file_path) { filename_d }
+    let(:num_lines) { num_lines_d }
 
     context 'with more additions than deletions' do
       let(:additions) { 1 }
@@ -46,6 +54,7 @@ describe Pronto::BigFiles::PatchInspector do
 
   context 'with patch to file in report' do
     let(:new_file_path) { filename_a }
+    let(:num_lines) { num_lines_a }
 
     context 'with more additions than deletions' do
       let(:additions) { 1 }
@@ -64,5 +73,44 @@ describe Pronto::BigFiles::PatchInspector do
     context 'with no net change' do
       xit
     end
+  end
+
+  # TODO: Add specs to match policy below
+  #
+  # Policy: We complain iff:
+  #
+  # a file is added to
+  # that is in the three complained about
+  # and the total ends up above 300
+  #
+  # ...and we only complain once per file
+  context 'when single file net added to ' \
+          'that is one of the three complained about, ' \
+          'and is above limit' do
+    xit 'complains on line of first change'
+  end
+
+  context 'when single file removed from ' \
+          'that is one of the three complained about, ' \
+          'and is above limit' do
+    xit 'does not complain'
+  end
+
+  context 'when single file net added to ' \
+          'that is not one of the three complained about, ' \
+          'and is above limit' do
+    xit 'does not complain'
+  end
+
+  context 'when single file untouched ' \
+          'that is not one of the three complained about, ' \
+          'and is above limit' do
+    xit 'does not complain'
+  end
+
+  context 'when single file net added to ' \
+          'that is one of the three complained about, ' \
+          'but is below limit of 300' do
+    xit 'does not complain'
   end
 end

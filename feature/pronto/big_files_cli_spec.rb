@@ -70,7 +70,7 @@ describe Pronto::BigFiles do
             'that is one of the three complained about, ' \
             'and is above limit' do
       let(:expected_output) do
-        "one_line_added_above_limit.rb:302 W: This file, one of the 3 largest in the project, increased in size to 301 lines.  Is it complex enough to refactor?\n"
+        "one_line_added_above_limit.rb:302 W: This file, one of the 3 largest in the project, increased in size to 302 lines.  Is it complex enough to refactor?\n"
       end
 
       # TODO: Replicate net added to aspect
