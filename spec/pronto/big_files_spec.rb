@@ -12,11 +12,10 @@ describe Pronto::BigFiles do
                         patch_inspector: patch_inspector)
   end
 
-  # let(:bigfiles_driver) do # TODO
-  #   instance_double(Pronto::BigFiles::BigFilesDriver,
-  #                   'bigfiles_driver')
-  # end
-  let(:bigfiles_driver) { double('bigfiles_driver') }
+  let(:bigfiles_driver) do
+    instance_double(Pronto::BigFiles::BigFilesDriver,
+                    'bigfiles_driver')
+  end
   let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
   let(:filename) { instance_double(String, 'filename') }
 
