@@ -34,6 +34,9 @@ module Pronto
       end
 
       def inspect_patch(patch)
+        # TODO: Some of this nastiness should be put into a
+        # BigFiles-exported object.  Maybe extract that out here and
+        # then import into there?
         path = patch.delta.new_file[:path]
         file_with_line = @bigfiles_result.find { |f| f.filename == path }
         return if file_with_line.nil? || !patch.additions.positive?
