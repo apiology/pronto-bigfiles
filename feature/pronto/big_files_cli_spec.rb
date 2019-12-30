@@ -32,6 +32,13 @@ describe Pronto::BigFiles do
       'bundle exec pronto run --staged -r bigfiles -f text'
     end
 
+    let(:results) do
+      Open3.capture2e(env, pronto_command)
+    end
+
+    let(:out) { results[0] }
+    let(:exit_code) { results[1] }
+
     around do |example|
       Dir.mktmpdir do |dir|
         Dir.chdir(dir) do
@@ -60,7 +67,22 @@ describe Pronto::BigFiles do
     context 'when single file added to ' \
             'that is one of the three complained about, ' \
             'and is above limit' do
-      xit 'complains on line of first change'
+      let(:expected_output) do
+        'blah'
+      end
+
+      let(:example_files) do  # TODO get this to match
+        {
+          'more_interesting.rb' =>
+          "puts 'hello world'\n# TOD" \
+          "O: Write more code",
+        }
+      end
+
+      it 'complains on line of first change' do
+        expect(out).to include(expected_output)
+        expect(exit_code).to eq(0)
+      end
     end
 
     context 'when single file removed from ' \
