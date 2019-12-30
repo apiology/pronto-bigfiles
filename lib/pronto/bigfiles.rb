@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-require 'pronto/punchlist/version'
-require 'pronto/punchlist/patch_inspector'
-require 'pronto/punchlist/driver'
-require 'pronto/punchlist/patch_validator'
+require 'pronto/bigfiles/version'
+require 'pronto/bigfiles/patch_inspector'
+require 'pronto/bigfiles/bigfiles_driver'
 require 'pronto'
 
 module Pronto
@@ -11,8 +10,7 @@ module Pronto
   class BigFiles < Runner
     def initialize(patches, commit = nil,
                    bigfiles_driver: BigFilesDriver.new,
-                   patch_inspector: PatchInspector.new(bigfiles_driver:
-                                                         bigfiles_driver))
+                   patch_inspector: PatchInspector.new(bigfiles_driver.run))
       super(patches, commit)
       @patch_inspector = patch_inspector
     end
