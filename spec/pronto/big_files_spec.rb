@@ -8,16 +8,21 @@ describe Pronto::BigFiles do
   let(:patch_inspector) { instance_double(Pronto::BigFiles::PatchInspector) }
   let(:pronto_bigfiles) do
     described_class.new(patches, commit,
-                        bigfiles_driver: bigfiles_driver,
+                        bigfiles_inspector: bigfiles_inspector,
                         patch_inspector: patch_inspector)
   end
 
-  let(:bigfiles_driver) do
-    instance_double(Pronto::BigFiles::BigFilesDriver,
-                    'bigfiles_driver')
+  let(:bigfiles_inspector) do
+    instance_double(BigFiles::Inspector,
+                    'bigfiles_inspector')
   end
   let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
   let(:filename) { instance_double(String, 'filename') }
+  let(:bigfiles_result) { instance_double(Array, 'bigfiles_result') }
+
+  before do
+    allow(bigfiles_inspector).to receive(:find_and_analyze) { bigfiles_result }
+  end
 
   describe '#new' do
     subject { pronto_bigfiles }
