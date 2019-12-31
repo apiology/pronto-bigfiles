@@ -20,17 +20,10 @@ module Pronto
         @bigfiles_result = bigfiles_result
         @bigfiles_config = bigfiles_config
         @quality_config = quality_config
-        @message_creator = @message_creator_class.new(num_files,
-                                                      total_lines,
-                                                      target_num_lines)
-      end
-
-      def num_files
-        @bigfiles_config.num_files
-      end
-
-      def target_num_lines
-        @quality_config.high_water_mark
+        @message_creator =
+          @message_creator_class.new(@bigfiles_config.num_files,
+                                     total_lines,
+                                     @quality_config.high_water_mark)
       end
 
       def under_limit?
