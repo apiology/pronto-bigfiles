@@ -28,6 +28,7 @@ describe Pronto::BigFiles::PatchInspector do
   let(:num_lines_a) { instance_double(Integer, 'num_lines_a') }
   let(:num_lines_b) { instance_double(Integer, 'num_lines_b') }
   let(:num_lines_d) { instance_double(Integer, 'num_lines_d') }
+  let(:total_lines) { instance_double(Integer, 'total_lines') }
 
   before do
     allow(message_creator_class).to receive(:new).with(no_args) do
@@ -44,7 +45,11 @@ describe Pronto::BigFiles::PatchInspector do
     allow(delta).to receive(:new_file) { new_file }
     allow(bigfile_a).to receive(:num_lines) { num_lines_a }
     allow(bigfile_b).to receive(:num_lines) { num_lines_b }
-    allow(quality_config).to receive(:under_limit?).with('bigfiles') { under_limit }
+    allow(quality_config).to receive(:under_limit?).with('bigfiles',
+                                                         total_lines) do
+      under_limit
+    end
+    allow(num_lines_a).to receive(:+).with(num_lines_b) { total_lines }
   end
 
   # Policy: We complain iff:
@@ -76,7 +81,7 @@ describe Pronto::BigFiles::PatchInspector do
       let(:additions) { 1 }
       let(:deletions) { 0 }
 
-      xit { is_expected.to eq(nil) }
+      it { is_expected.to eq(nil) }
     end
   end
 

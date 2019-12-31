@@ -6,7 +6,9 @@ describe Pronto::BigFiles::QualityConfig do
   let(:quality_config) { described_class.new }
 
   describe '#under_limit?' do
-    subject { quality_config.under_limit?(total_lines) }
+    subject { quality_config.under_limit?(tool_name, total_lines) }
+
+    let(:tool_name) { 'tool_name' }
 
     context 'when metrics file does not exist' do
       context 'when above 300' do

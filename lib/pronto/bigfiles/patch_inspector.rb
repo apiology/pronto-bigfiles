@@ -24,7 +24,7 @@ module Pronto
     end
 
     class QualityConfig
-      def under_limit?(_)
+      def under_limit?(tool_name, total_lines)
         false
       end
     end
@@ -43,7 +43,11 @@ module Pronto
       end
 
       def under_limit?
-        @quality_config.under_limit?('bigfiles')
+        @quality_config.under_limit?('bigfiles', total_lines)
+      end
+
+      def total_lines
+        @bigfiles_result.map(&:num_lines).reduce(:+)
       end
 
       def inspect_patch(patch)
@@ -52,6 +56,7 @@ module Pronto
         # then import into there?
         path = patch.delta.new_file[:path]
         file_with_line = @bigfiles_result.find { |f| f.filename == path }
+
         return if file_with_line.nil?
 
         return unless (patch.additions - patch.deletions).positive?
