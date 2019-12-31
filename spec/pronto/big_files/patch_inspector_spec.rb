@@ -91,7 +91,10 @@ describe Pronto::BigFiles::PatchInspector do
     let(:under_limit) { false }
 
     context 'with no additions or deletions' do
-      xit { is_expected.to eq(nil) }
+      let(:additions) { 0 }
+      let(:deletions) { 0 }
+
+      it { is_expected.to eq(nil) }
     end
 
     context 'with more additions than deletions' do
