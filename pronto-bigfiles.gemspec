@@ -40,7 +40,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'pronto-punchlist'
-  spec.add_development_dependency 'pronto-reek'
   spec.add_development_dependency 'pronto-rubocop'
   spec.add_development_dependency 'quality', '~> 36'
   spec.add_development_dependency 'rake'
