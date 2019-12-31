@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'pronto/bigfiles/patch_inspector'
+require 'pronto/bigfiles/message_creator'
 
 describe Pronto::BigFiles::MessageCreator do
   describe '#create_message' do
