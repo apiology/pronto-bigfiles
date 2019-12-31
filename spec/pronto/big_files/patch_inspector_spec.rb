@@ -8,11 +8,7 @@ describe Pronto::BigFiles::PatchInspector do
   let(:patch_inspector) do
     described_class.new(bigfiles_result,
                         message_creator_class: message_creator_class,
-                        quality_config: quality_config,
                         bigfiles_config: bigfiles_config)
-  end
-  let(:quality_config) do
-    instance_double(::BigFiles::QualityConfig, 'quality_config')
   end
   let(:bigfiles_config) do
     instance_double(::BigFiles::Config, 'bigfiles_config')
@@ -52,12 +48,12 @@ describe Pronto::BigFiles::PatchInspector do
     allow(delta).to receive(:new_file) { new_file }
     allow(bigfile_a).to receive(:num_lines) { num_lines_a }
     allow(bigfile_b).to receive(:num_lines) { num_lines_b }
-    allow(quality_config).to receive(:under_limit?).with(total_lines) do
+    allow(bigfiles_config).to receive(:under_limit?).with(total_lines) do
       under_limit
     end
     allow(bigfiles_config).to receive(:num_files) { num_files }
     allow(num_lines_a).to receive(:+).with(num_lines_b) { total_lines }
-    allow(quality_config).to receive(:high_water_mark) { target_num_lines }
+    allow(bigfiles_config).to receive(:high_water_mark) { target_num_lines }
   end
 
   # Policy: We complain iff:
