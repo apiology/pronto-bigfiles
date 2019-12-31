@@ -16,7 +16,6 @@ module Pronto
         path = patch.delta.new_file[:path]
         line = patch.added_lines.first
         level = :warning
-        # TODO: accept in number of lines in file
         msg = "This file, one of the 3 largest in the project, " \
               "increased in size to #{num_lines} lines.  " \
               "Is it complex enough to refactor?"
@@ -24,13 +23,27 @@ module Pronto
       end
     end
 
+    class QualityConfig
+      def under_limit?(_)
+        false
+      end
+    end
+
     # Inspects patches and returns a Pronto::Message class when appropriate
     class PatchInspector
       def initialize(bigfiles_result,
-                     message_creator_class: MessageCreator)
+                     message_creator_class: MessageCreator,
+                     # TODO: Can I move this into quality gem and make
+                     # spec that it's part of exported interface'?
+                     quality_config: QualityConfig.new)
         @message_creator_class = message_creator_class
         @message_creator = @message_creator_class.new
         @bigfiles_result = bigfiles_result
+        @quality_config = quality_config
+      end
+
+      def under_limit?
+        @quality_config.under_limit?('bigfiles')
       end
 
       def inspect_patch(patch)
@@ -39,7 +52,11 @@ module Pronto
         # then import into there?
         path = patch.delta.new_file[:path]
         file_with_line = @bigfiles_result.find { |f| f.filename == path }
-        return if file_with_line.nil? || !patch.additions.positive?
+        return if file_with_line.nil?
+
+        return unless (patch.additions - patch.deletions).positive?
+
+        return if under_limit?
 
         @message_creator.create_message(patch, file_with_line.num_lines)
       end
