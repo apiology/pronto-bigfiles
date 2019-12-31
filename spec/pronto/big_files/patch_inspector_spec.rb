@@ -45,8 +45,7 @@ describe Pronto::BigFiles::PatchInspector do
     allow(delta).to receive(:new_file) { new_file }
     allow(bigfile_a).to receive(:num_lines) { num_lines_a }
     allow(bigfile_b).to receive(:num_lines) { num_lines_b }
-    allow(quality_config).to receive(:under_limit?).with('bigfiles',
-                                                         total_lines) do
+    allow(quality_config).to receive(:under_limit?).with(total_lines) do
       under_limit
     end
     allow(num_lines_a).to receive(:+).with(num_lines_b) { total_lines }

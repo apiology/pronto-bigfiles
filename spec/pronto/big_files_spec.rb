@@ -44,7 +44,6 @@ describe Pronto::BigFiles do
       let(:messages) { [message_a, message_b] }
 
       before do
-        # TODO: require bigfiles_result here
         allow(patch_inspector).to receive(:inspect_patch).with(patch) do
           messages
         end

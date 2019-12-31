@@ -23,9 +23,38 @@ module Pronto
       end
     end
 
+    class QualityThreshold
+      attr_reader :tool_name
+
+      def initialize(tool_name,
+                     count_file: File,
+                     count_io: IO,
+                     output_dir: 'metrics')
+        @tool_name = tool_name
+        @count_file = count_file
+        @count_io = count_io
+        @filename = File.join(output_dir, "#{tool_name}_high_water_mark")
+      end
+
+      def threshold
+        if @count_file.exist?(@filename)
+          @count_io.read(@filename).to_i
+        else
+          return 300 if tool_name == 'bigfiles'
+
+          0
+        end
+      end
+    end
+
     class QualityConfig
-      def under_limit?(tool_name, total_lines)
-        false
+      def initialize(tool_name,
+                     quality_threshold: QualityThreshold.new(tool_name))
+        @quality_threshold = quality_threshold
+      end
+
+      def under_limit?(total_lines)
+        total_lines <= @quality_threshold.threshold
       end
     end
 
@@ -35,7 +64,7 @@ module Pronto
                      message_creator_class: MessageCreator,
                      # TODO: Can I move this into quality gem and make
                      # spec that it's part of exported interface'?
-                     quality_config: QualityConfig.new)
+                     quality_config: QualityConfig.new('bigfiles'))
         @message_creator_class = message_creator_class
         @message_creator = @message_creator_class.new
         @bigfiles_result = bigfiles_result
@@ -43,7 +72,7 @@ module Pronto
       end
 
       def under_limit?
-        @quality_config.under_limit?('bigfiles', total_lines)
+        @quality_config.under_limit?(total_lines)
       end
 
       def total_lines
@@ -51,9 +80,6 @@ module Pronto
       end
 
       def inspect_patch(patch)
-        # TODO: Some of this nastiness should be put into a
-        # BigFiles-exported object.  Maybe extract that out here and
-        # then import into there?
         path = patch.delta.new_file[:path]
         file_with_line = @bigfiles_result.find { |f| f.filename == path }
 
