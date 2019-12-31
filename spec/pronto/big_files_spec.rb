@@ -11,10 +11,8 @@ describe Pronto::BigFiles do
                         bigfiles_inspector: bigfiles_inspector,
                         patch_inspector: patch_inspector)
   end
-
   let(:bigfiles_inspector) do
-    instance_double(BigFiles::Inspector,
-                    'bigfiles_inspector')
+    instance_double(BigFiles::Inspector, 'bigfiles_inspector')
   end
   let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
   let(:filename) { instance_double(String, 'filename') }
