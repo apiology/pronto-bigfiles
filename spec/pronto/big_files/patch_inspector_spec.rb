@@ -8,10 +8,14 @@ describe Pronto::BigFiles::PatchInspector do
   let(:patch_inspector) do
     described_class.new(bigfiles_result,
                         message_creator_class: message_creator_class,
-                        quality_config: quality_config)
+                        quality_config: quality_config,
+                        bigfiles_config: bigfiles_config)
   end
   let(:quality_config) do
-    instance_double(Pronto::BigFiles::QualityConfig, 'quality_config')
+    instance_double(::BigFiles::QualityConfig, 'quality_config')
+  end
+  let(:bigfiles_config) do
+    instance_double(::BigFiles::Config, 'bigfiles_config')
   end
   let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
   let(:message_creator_class) { class_double(Pronto::BigFiles::MessageCreator) }
@@ -29,9 +33,12 @@ describe Pronto::BigFiles::PatchInspector do
   let(:num_lines_b) { instance_double(Integer, 'num_lines_b') }
   let(:num_lines_d) { instance_double(Integer, 'num_lines_d') }
   let(:total_lines) { instance_double(Integer, 'total_lines') }
+  let(:num_files) { instance_double(Integer, 'num_files') }
+  let(:target_num_lines) { instance_double(Integer, 'target_num_lines') }
 
   before do
-    allow(message_creator_class).to receive(:new).with(no_args) do
+    allow(message_creator_class).to receive(:new)
+      .with(num_files, total_lines, target_num_lines) do
       message_creator
     end
     allow(message_creator).to receive(:create_message).with(patch, num_lines) do
@@ -48,7 +55,9 @@ describe Pronto::BigFiles::PatchInspector do
     allow(quality_config).to receive(:under_limit?).with(total_lines) do
       under_limit
     end
+    allow(bigfiles_config).to receive(:num_files) { num_files }
     allow(num_lines_a).to receive(:+).with(num_lines_b) { total_lines }
+    allow(quality_config).to receive(:high_water_mark) { target_num_lines }
   end
 
   # Policy: We complain iff:

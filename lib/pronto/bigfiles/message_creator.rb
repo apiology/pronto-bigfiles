@@ -7,18 +7,24 @@ module Pronto
   class BigFiles < Runner
     # Creates Pronto warning message objects
     class MessageCreator
-      attr_reader :patch
+      attr_reader :num_files, :total_lines, :target_num_lines
 
       # TODO: accept in bigfiles threshold
-      def initialize; end
+      def initialize(num_files, total_lines, target_num_lines)
+        @num_files = num_files
+        @total_lines = total_lines
+        @target_num_lines = target_num_lines
+      end
 
       def create_message(patch, num_lines)
         path = patch.delta.new_file[:path]
         line = patch.added_lines.first
         level = :warning
-        msg = "This file, one of the 3 largest in the project, " \
-              "increased in size to #{num_lines} lines.  " \
-              "Is it complex enough to refactor?"
+        msg = "This file, one of the #{num_files} largest in the project, " \
+              "increased in size to #{num_lines} lines.  The total size " \
+              "of those files is now #{total_lines} lines " \
+              "(target: #{target_num_lines}).  Is this file complex " \
+              "enough to refactor?"
         Message.new(path, line, level, msg)
       end
     end

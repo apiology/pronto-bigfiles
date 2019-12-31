@@ -3,15 +3,19 @@
 require 'pronto/bigfiles/version'
 require 'pronto/bigfiles/patch_inspector'
 require 'bigfiles/inspector'
+require 'bigfiles/config'
 require 'pronto'
 
 module Pronto
   # Performs incremental quality reporting for the bigfiles gem
   class BigFiles < Runner
     def initialize(patches, commit = nil,
+                   bigfiles_config: ::BigFiles::Config.new,
                    bigfiles_inspector: ::BigFiles::Inspector.new,
                    bigfiles_results: bigfiles_inspector.find_and_analyze,
-                   patch_inspector: PatchInspector.new(bigfiles_results))
+                   patch_inspector: PatchInspector.new(bigfiles_results,
+                                                       bigfiles_config:
+                                                         bigfiles_config))
       super(patches, commit)
       @patch_inspector = patch_inspector
     end

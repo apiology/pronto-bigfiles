@@ -2,7 +2,7 @@
 
 require 'pronto'
 require_relative 'message_creator'
-require_relative 'quality_config'
+require 'bigfiles/quality_config'
 
 module Pronto
   # Performs incremental quality reporting for the bigfiles gem
@@ -13,11 +13,24 @@ module Pronto
                      message_creator_class: MessageCreator,
                      # TODO: Can I move this into quality gem and make
                      # spec that it's part of exported interface'?
-                     quality_config: QualityConfig.new('bigfiles'))
+                     # TODO: Let's delegate this work to BigfilesConfig
+                     quality_config: ::BigFiles::QualityConfig.new('bigfiles'),
+                     bigfiles_config:)
         @message_creator_class = message_creator_class
-        @message_creator = @message_creator_class.new
         @bigfiles_result = bigfiles_result
+        @bigfiles_config = bigfiles_config
         @quality_config = quality_config
+        @message_creator = @message_creator_class.new(num_files,
+                                                      total_lines,
+                                                      target_num_lines)
+      end
+
+      def num_files
+        @bigfiles_config.num_files
+      end
+
+      def target_num_lines
+        @quality_config.high_water_mark
       end
 
       def under_limit?

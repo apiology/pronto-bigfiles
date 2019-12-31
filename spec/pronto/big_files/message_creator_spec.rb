@@ -5,11 +5,13 @@ require 'pronto/bigfiles/message_creator'
 describe Pronto::BigFiles::MessageCreator do
   describe '#create_message' do
     subject(:created_message) do
-      described_class.new.create_message(patch, num_lines)
+      message_creator.create_message(patch, num_lines)
     end
 
+    let(:message_creator) do
+      described_class.new(num_files, total_lines, target_num_lines)
+    end
     let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
-
     let(:first_added_line) do
       instance_double(Pronto::Git::Line, 'first_added_line')
     end
@@ -17,8 +19,11 @@ describe Pronto::BigFiles::MessageCreator do
     let(:added_lines) { [first_added_line] }
     let(:delta) { instance_double(Rugged::Diff::Delta, 'delta') }
     let(:new_file_path) { instance_double(String, 'new_file_path') }
+    let(:num_files) { 5 }
     let(:new_file) { { path: new_file_path } }
     let(:num_lines) { 123 }
+    let(:total_lines) { 395 }
+    let(:target_num_lines) { 393 }
 
     before do
       allow(patch).to receive(:added_lines) { added_lines }
@@ -38,9 +43,11 @@ describe Pronto::BigFiles::MessageCreator do
 
     it 'gives a good message' do
       expect(created_message.msg)
-        .to eq("This file, one of the 3 largest in the project, " \
+        .to eq("This file, one of the #{num_files} largest in the project, " \
                "increased in size to #{num_lines} lines.  " \
-               "Is it complex enough to refactor?")
+               "The total size of those files is now #{total_lines} lines " \
+               "(target: #{target_num_lines}).  " \
+               "Is this file complex enough to refactor?")
     end
   end
 end
