@@ -7,7 +7,11 @@ describe Pronto::BigFiles::PatchInspector do
 
   let(:patch_inspector) do
     described_class.new(bigfiles_result,
-                        message_creator_class: message_creator_class)
+                        message_creator_class: message_creator_class,
+                        quality_config: quality_config)
+  end
+  let(:quality_config) do
+    instance_double(Pronto::BigFiles::QualityConfig, 'quality_config')
   end
   let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
   let(:message_creator_class) { class_double(Pronto::BigFiles::MessageCreator) }
@@ -40,11 +44,20 @@ describe Pronto::BigFiles::PatchInspector do
     allow(delta).to receive(:new_file) { new_file }
     allow(bigfile_a).to receive(:num_lines) { num_lines_a }
     allow(bigfile_b).to receive(:num_lines) { num_lines_b }
+    allow(quality_config).to receive(:under_limit?).with('bigfiles') { under_limit }
   end
 
-  context 'with patch to file not in report' do
+  # Policy: We complain iff:
+  #
+  # a file is added to
+  # that is in the three complained about
+  # and the total ends up above 300
+  #
+  # ...and we only complain once per file
+  context 'with patch to file not in report above limit' do
     let(:new_file_path) { filename_d }
     let(:num_lines) { num_lines_d }
+    let(:under_limit) { false }
 
     context 'with more additions than deletions' do
       let(:additions) { 1 }
@@ -54,9 +67,27 @@ describe Pronto::BigFiles::PatchInspector do
     end
   end
 
-  context 'with patch to file in report' do
+  context 'with patch to file in report below limit' do
     let(:new_file_path) { filename_a }
     let(:num_lines) { num_lines_a }
+    let(:under_limit) { true }
+
+    context 'with more additions than deletions' do
+      let(:additions) { 1 }
+      let(:deletions) { 0 }
+
+      xit { is_expected.to eq(nil) }
+    end
+  end
+
+  context 'with patch to file in report above limit' do
+    let(:new_file_path) { filename_a }
+    let(:num_lines) { num_lines_a }
+    let(:under_limit) { false }
+
+    context 'with no additions or deletions' do
+      xit { is_expected.to eq(nil) }
+    end
 
     context 'with more additions than deletions' do
       let(:additions) { 1 }
@@ -73,46 +104,10 @@ describe Pronto::BigFiles::PatchInspector do
     end
 
     context 'with no net change' do
-      xit
+      let(:additions) { 1 }
+      let(:deletions) { 1 }
+
+      it { is_expected.to eq(nil) }
     end
-  end
-
-  # TODO: Add specs to match policy below
-  #
-  # Policy: We complain iff:
-  #
-  # a file is added to
-  # that is in the three complained about
-  # and the total ends up above 300
-  #
-  # ...and we only complain once per file
-  context 'when single file net added to ' \
-          'that is one of the three complained about, ' \
-          'and is above limit' do
-    xit 'complains on line of first change'
-  end
-
-  context 'when single file removed from ' \
-          'that is one of the three complained about, ' \
-          'and is above limit' do
-    xit 'does not complain'
-  end
-
-  context 'when single file net added to ' \
-          'that is not one of the three complained about, ' \
-          'and is above limit' do
-    xit 'does not complain'
-  end
-
-  context 'when single file untouched ' \
-          'that is not one of the three complained about, ' \
-          'and is above limit' do
-    xit 'does not complain'
-  end
-
-  context 'when single file net added to ' \
-          'that is one of the three complained about, ' \
-          'but is below limit of 300' do
-    xit 'does not complain'
   end
 end
