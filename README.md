@@ -9,6 +9,15 @@ BigFiles is a simple tool to find the largest source files in your
 project; this gem plugs in with the 'pronto' gem, which does
 incremental reporting using a variety of quality tools.
 
+If you add text to a file in the top three largest files, and the
+total number of lines for those three is under 300, you'll get an
+alert.
+
+If you've already configured a different threshold using the
+`metrics/bigfiles_high_water_mark` (e.g., using the
+[quality gem](http://github.com/apiology/quality)), pronto-bigfiles will use
+that threshold instead of 300.
+
 ## Installation
 
 Add this line to your application's Gemfile:
