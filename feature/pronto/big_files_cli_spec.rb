@@ -14,15 +14,9 @@ describe Pronto::BigFiles do
   end
 
   describe 'bundle exec pronto list' do
-    let(:expected_output) do
-      <<~OUTPUT
-        bigfiles
-      OUTPUT
-    end
-
     it 'lists this as a runner' do
       out, exit_code = Open3.capture2e(env, 'bundle exec pronto list')
-      expect(out).to include(expected_output)
+      expect(out).to include("bigfiles\n")
       expect(exit_code).to eq(0)
     end
   end
@@ -32,10 +26,7 @@ describe Pronto::BigFiles do
       'bundle exec pronto run --staged -r bigfiles -f text'
     end
 
-    let(:results) do
-      Open3.capture2e(env, pronto_command)
-    end
-
+    let(:results) { Open3.capture2e(env, pronto_command) }
     let(:out) { results[0] }
     let(:exit_code) { results[1] }
 

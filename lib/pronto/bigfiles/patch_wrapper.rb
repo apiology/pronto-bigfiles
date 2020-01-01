@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'pronto'
 
 module Pronto
   class BigFiles < Runner
+    # Add convenience methods on top of Pronto::Git::Patch
     class PatchWrapper
       attr_reader :patch
 

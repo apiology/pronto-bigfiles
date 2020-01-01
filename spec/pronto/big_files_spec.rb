@@ -78,10 +78,12 @@ describe Pronto::BigFiles do
       let(:messages_2) { [message_a, message_b] }
 
       before do
-        allow(patch_inspector).to receive(:inspect_patch).with(patch_wrapper_1) do
+        allow(patch_inspector).to receive(:inspect_patch)
+          .with(patch_wrapper_1) do
           messages_1
         end
-        allow(patch_inspector).to receive(:inspect_patch).with(patch_wrapper_2) do
+        allow(patch_inspector).to receive(:inspect_patch)
+          .with(patch_wrapper_2) do
           messages_2
         end
         allow(patch_wrapper_class).to receive(:new).with(patch_1) do
@@ -92,11 +94,17 @@ describe Pronto::BigFiles do
         end
       end
 
+      def expect_patches_inspected
+        expect(patch_inspector).to have_received(:inspect_patch)
+          .with(patch_wrapper_1)
+        expect(patch_inspector).to have_received(:inspect_patch)
+          .with(patch_wrapper_2)
+      end
+
       it 'returns messages passed back by inspector' do
         aggregate_failures 'message and side-effects' do
           expect(pronto_report).to eq([message_a, message_b])
-          expect(patch_inspector).to have_received(:inspect_patch).with(patch_wrapper_1)
-          expect(patch_inspector).to have_received(:inspect_patch).with(patch_wrapper_2)
+          expect_patches_inspected
         end
       end
     end

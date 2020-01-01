@@ -13,7 +13,9 @@ describe Pronto::BigFiles::PatchInspector do
   let(:bigfiles_config) do
     instance_double(::BigFiles::Config, 'bigfiles_config')
   end
-  let(:patch_wrapper) { instance_double(Pronto::BigFiles::PatchWrapper, 'patch_wrapper') }
+  let(:patch_wrapper) do
+    instance_double(Pronto::BigFiles::PatchWrapper, 'patch_wrapper')
+  end
   let(:message_creator_class) { class_double(Pronto::BigFiles::MessageCreator) }
   let(:message_creator) { instance_double(Pronto::BigFiles::MessageCreator) }
   let(:bigfiles_result) { [bigfile_a, bigfile_b] }
