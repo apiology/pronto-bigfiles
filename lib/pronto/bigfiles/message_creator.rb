@@ -9,7 +9,6 @@ module Pronto
     class MessageCreator
       attr_reader :num_files, :total_lines, :target_num_lines
 
-      # TODO: accept in bigfiles threshold
       def initialize(num_files, total_lines, target_num_lines)
         @num_files = num_files
         @total_lines = total_lines
