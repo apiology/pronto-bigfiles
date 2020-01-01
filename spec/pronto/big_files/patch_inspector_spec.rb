@@ -65,24 +65,16 @@ describe Pronto::BigFiles::PatchInspector do
     let(:num_lines) { num_lines_d }
     let(:under_limit) { false }
 
-    context 'with more additions than deletions' do
-      let(:additions) { 1 }
-      let(:deletions) { 0 }
-
-      it { is_expected.to eq(nil) }
-    end
+    it { is_expected.to eq(nil) }
   end
 
-  context 'with patch to file in report below limit' do
+  context 'with patch to file in report below limit added to' do
     let(:new_file_path) { filename_a }
     let(:num_lines) { num_lines_a }
     let(:under_limit) { true }
+    let(:added_to) { true }
 
-    context 'with more additions than deletions' do
-      let(:added_to) { true }
-
-      it { is_expected.to eq(nil) }
-    end
+    it { is_expected.to eq(nil) }
   end
 
   context 'with patch to file in report above limit' do
