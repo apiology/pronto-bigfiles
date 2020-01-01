@@ -2,6 +2,7 @@
 
 require 'pronto/bigfiles/version'
 require 'pronto/bigfiles/patch_inspector'
+require 'pronto/bigfiles/patch_wrapper'
 require 'bigfiles/inspector'
 require 'bigfiles/config'
 require 'pronto'
@@ -13,11 +14,13 @@ module Pronto
                    bigfiles_config: ::BigFiles::Config.new,
                    bigfiles_inspector: ::BigFiles::Inspector.new,
                    bigfiles_results: bigfiles_inspector.find_and_analyze,
+                   patch_wrapper_class: PatchWrapper,
                    patch_inspector: PatchInspector.new(bigfiles_results,
                                                        bigfiles_config:
                                                          bigfiles_config))
       super(patches, commit)
       @patch_inspector = patch_inspector
+      @patch_wrapper_class = patch_wrapper_class
     end
 
     class Error < StandardError; end
@@ -26,7 +29,7 @@ module Pronto
     end
 
     def inspect_patch(patch)
-      @patch_inspector.inspect_patch(patch)
+      @patch_inspector.inspect_patch(@patch_wrapper_class.new(patch))
     end
   end
 end

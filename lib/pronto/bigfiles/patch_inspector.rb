@@ -28,17 +28,17 @@ module Pronto
         @bigfiles_result.map(&:num_lines).reduce(:+)
       end
 
-      def inspect_patch(patch)
-        path = patch.delta.new_file[:path]
+      def inspect_patch(patch_wrapper)
+        path = patch_wrapper.path
         file_with_line = @bigfiles_result.find { |f| f.filename == path }
 
         return if file_with_line.nil?
 
-        return unless (patch.additions - patch.deletions).positive?
+        return unless patch_wrapper.added_to?
 
         return if under_limit?
 
-        @message_creator.create_message(patch, file_with_line.num_lines)
+        @message_creator.create_message(patch_wrapper, file_with_line.num_lines)
       end
     end
   end

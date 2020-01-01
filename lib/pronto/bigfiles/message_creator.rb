@@ -16,9 +16,9 @@ module Pronto
         @target_num_lines = target_num_lines
       end
 
-      def create_message(patch, num_lines)
-        path = patch.delta.new_file[:path]
-        line = patch.added_lines.first
+      def create_message(patch_wrapper, num_lines)
+        path = patch_wrapper.path
+        line = patch_wrapper.first_added_line
         level = :warning
         msg = "This file, one of the #{num_files} largest in the project, " \
               "increased in size to #{num_lines} lines.  The total size " \

@@ -5,32 +5,29 @@ require 'pronto/bigfiles/message_creator'
 describe Pronto::BigFiles::MessageCreator do
   describe '#create_message' do
     subject(:created_message) do
-      message_creator.create_message(patch, num_lines)
+      message_creator.create_message(patch_wrapper, num_lines)
     end
 
     let(:message_creator) do
       described_class.new(num_files, total_lines, target_num_lines)
     end
-    let(:patch) { instance_double(Pronto::Git::Patch, 'patch') }
-    let(:first_added_line) do
-      instance_double(Pronto::Git::Line, 'first_added_line')
-    end
+    let(:patch_wrapper) { instance_double(Pronto::BigFiles::PatchWrapper, 'patch_wrapper') }
     let(:commit_sha) { instance_double(String, 'commit_sha') }
-    let(:added_lines) { [first_added_line] }
     let(:delta) { instance_double(Rugged::Diff::Delta, 'delta') }
     let(:new_file_path) { instance_double(String, 'new_file_path') }
     let(:num_files) { 5 }
-    let(:new_file) { { path: new_file_path } }
     let(:num_lines) { 123 }
     let(:total_lines) { 395 }
     let(:target_num_lines) { 393 }
+    let(:first_added_line) do
+      instance_double(Pronto::Git::Line, 'first_added_line')
+    end
 
     before do
-      allow(patch).to receive(:added_lines) { added_lines }
       allow(first_added_line).to receive(:commit_sha) { commit_sha }
       allow(first_added_line).to receive(:patch) { patch }
-      allow(patch).to receive(:delta) { delta }
-      allow(delta).to receive(:new_file) { new_file }
+      allow(patch_wrapper).to receive(:first_added_line) { first_added_line }
+      allow(patch_wrapper).to receive(:path) { new_file_path }
     end
 
     it { expect { created_message }.not_to raise_error }
