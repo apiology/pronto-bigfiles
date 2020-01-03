@@ -35,13 +35,14 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'bigfiles'
+  spec.add_dependency 'bigfiles', '>=0.2.0'
   spec.add_dependency 'pronto'
+  spec.add_dependency 'quality', '>= 37'
 
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'pronto-punchlist'
   spec.add_development_dependency 'pronto-rubocop'
-  spec.add_development_dependency 'quality', '~> 36'
+  spec.add_development_dependency 'quality', '~> 37'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'simplecov'
