@@ -34,6 +34,8 @@ describe Pronto::BigFiles do
       Dir.mktmpdir do |dir|
         Dir.chdir(dir) do
           system('git init')
+          system('git config user.email "you@example.com"')
+          system('git config user.name "Fake User"')
           example_files_committed.each do |filename, contents|
             File.write(filename, contents)
           end
@@ -74,9 +76,7 @@ describe Pronto::BigFiles do
       end
 
       let(:example_files_staged) do
-        {
-          'one_line_added_above_limit.rb' => ("\n" * 302),
-        }
+        { 'one_line_added_above_limit.rb' => ("\n" * 302) }
       end
 
       it 'complains on line of first change' do
