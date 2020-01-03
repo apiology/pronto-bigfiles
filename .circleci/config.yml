@@ -8,6 +8,9 @@ jobs:
       - checkout
       - type: cache-restore
         key: pronto-bigfiles-{{ checksum "pronto-bigfiles.gemspec" }}-{{ checksum "Gemfile" }}
+      # https://bundler.io/blog/2019/05/14/
+      #   solutions-for-cant-find-gem-bundler-with-executable-bundle.html
+      - run: sudo gem update --system
       - run: gem install bundler
       - run: bundle install --path vendor/bundle --jobs=4
       - run: bundle exec rake --jobs=4 ci
