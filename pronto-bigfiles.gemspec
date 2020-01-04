@@ -37,7 +37,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'bigfiles', '>=0.2.0'
   spec.add_dependency 'pronto'
-  spec.add_dependency 'quality', '>= 37'
 
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'pronto-punchlist'
