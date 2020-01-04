@@ -24,7 +24,7 @@ module Pronto
               "of those files is now #{total_lines} lines " \
               "(target: #{target_num_lines}).  Is this file complex " \
               "enough to refactor?"
-        Message.new(path, line, level, msg)
+        Message.new(path, line, level, msg, nil, Pronto::BigFiles)
       end
     end
   end

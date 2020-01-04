@@ -47,5 +47,6 @@ describe Pronto::BigFiles::MessageCreator do
     it { expect(created_message.commit_sha).to eq(commit_sha) }
     it { expect(created_message).to be_an_instance_of(Pronto::Message) }
     it { expect(created_message.msg).to eq(expected_msg) }
+    it { expect(created_message.runner).to eq(Pronto::BigFiles) }
   end
 end

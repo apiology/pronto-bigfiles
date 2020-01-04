@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pronto-bigfiles (0.1.1)
+    pronto-bigfiles (0.1.2)
       bigfiles (>= 0.2.0)
       pronto
 
