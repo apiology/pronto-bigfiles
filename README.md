@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/apiology/pronto-bigfiles.svg?style=svg)](https://circleci.com/gh/apiology/pronto-bigfiles)
 
-[![Build Status](https://travis-ci.com/apiology/pronto-bigfiles.svg?branch=master)](https://travis-ci.com/apiology/pronto-bigfiles)
+[![Build Status](https://travis-ci.com/apiology/pronto-bigfiles.svg?branch=main)](https://travis-ci.com/apiology/pronto-bigfiles)
 
 Performs incremental quality reporting for the bigfiles gem.
 BigFiles is a simple tool to find the largest source files in your
@@ -64,7 +64,7 @@ Bug reports and pull requests are welcome
 [on GitHub](https://github.com/apiology/pronto-bigfiles). This project is
 intended to be a safe, welcoming space for collaboration, and
 contributors are expected to adhere to the
-[code of conduct](https://github.com/apiology/pronto-bigfiles/blob/master/CODE_OF_CONDUCT.md).
+[code of conduct](https://github.com/apiology/pronto-bigfiles/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -75,4 +75,4 @@ The gem is available as open source under the terms of the
 
 Everyone interacting in the Pronto::BigFiles project's codebases,
 issue trackers, chat rooms and mailing lists is expected to follow the
-[code of conduct](https://github.com/apiology/pronto-bigfiles/blob/master/CODE_OF_CONDUCT.md).
+[code of conduct](https://github.com/apiology/pronto-bigfiles/blob/main/CODE_OF_CONDUCT.md).
