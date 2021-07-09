@@ -1,6 +1,3 @@
-require "bundler/gem_tasks"
-require "rspec/core/rake_task"
-
-RSpec::Core::RakeTask.new(:spec)
-
-task :default => :spec
+# frozen_string_literal: true
+# Add your own tasks in files placed in rakelib/ ending in .rake,
+# for example rakelib/capistrano.rake, and they will automatically be available to Rake.

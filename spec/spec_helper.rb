@@ -1,14 +1,22 @@
-require "bundler/setup"
-require "pronto/bigfiles"
+# frozen_string_literal: true
+
+require 'simplecov'
+require 'simplecov-lcov'
+
+SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(
+  [
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::LcovFormatter,
+  ]
+)
+SimpleCov.start do
+  # this dir used by CircleCI
+  add_filter 'vendor'
+  enable_coverage(:branch) # Report branch coverage to trigger branch-level undercover warnings
+end
+SimpleCov.refuse_coverage_drop
 
 RSpec.configure do |config|
-  # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = ".rspec_status"
-
-  # Disable RSpec exposing methods globally on `Module` and `main`
-  config.disable_monkey_patching!
-
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
-  end
+  config.order = 'random'
 end

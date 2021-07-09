@@ -1,0 +1,13 @@
+{
+    "_template": "https://github.com/apiology/cookiecutter-gem",
+    "email": "vince@broz.cc",
+    "full_name": "Vince Broz",
+    "github_username": "apiology",
+    "module_name": "ProntoBigfiles",
+    "open_source_license": "MIT license",
+    "project_name": "Pronto::BigFiles",
+    "project_short_description": "Performs incremental quality reporting for the bigfiles gem.",
+    "project_slug": "pronto-bigfiles",
+    "type_of_github_repo": "public",
+    "version": "0.1.2"
+}
