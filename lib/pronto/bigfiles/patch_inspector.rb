@@ -9,8 +9,7 @@ module Pronto
     # Inspects patches and returns a Pronto::Message class when appropriate
     class PatchInspector
       def initialize(bigfiles_result,
-                     message_creator_class: MessageCreator,
-                     bigfiles_config:)
+                     bigfiles_config:, message_creator_class: MessageCreator)
         @message_creator_class = message_creator_class
         @bigfiles_result = bigfiles_result
         @bigfiles_config = bigfiles_config
