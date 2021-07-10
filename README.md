@@ -2,8 +2,6 @@
 
 [![CircleCI](https://circleci.com/gh/apiology/pronto-bigfiles.svg?style=svg)](https://circleci.com/gh/apiology/pronto-bigfiles)
 
-[![Build Status](https://travis-ci.com/apiology/pronto-bigfiles.svg?branch=main)](https://travis-ci.com/apiology/pronto-bigfiles)
-
 Performs incremental quality reporting for the bigfiles gem.
 BigFiles is a simple tool to find the largest source files in your
 project; this gem plugs in with the 'pronto' gem, which does
