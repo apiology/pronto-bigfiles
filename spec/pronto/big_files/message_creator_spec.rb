@@ -26,10 +26,10 @@ describe Pronto::BigFiles::MessageCreator do
     end
     let(:expected_msg) do
       "This file, one of the #{num_files} largest in the project, " \
-      "increased in size to #{num_lines} lines.  " \
-      "The total size of those files is now #{total_lines} lines " \
-      "(target: #{target_num_lines}).  " \
-      "Is this file complex enough to refactor?"
+        "increased in size to #{num_lines} lines.  " \
+        "The total size of those files is now #{total_lines} lines " \
+        "(target: #{target_num_lines}).  " \
+        "Is this file complex enough to refactor?"
     end
 
     before do

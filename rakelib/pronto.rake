@@ -8,7 +8,7 @@ task :pronto do
   elsif ENV.key? 'CIRCLE_PULL_REQUEST'
     ENV['PRONTO_PULL_REQUEST_ID'] = ENV['CIRCLE_PULL_REQUEST'].split('/').last
   end
-  sh "pronto run #{formatter} -c origin/main --no-exit-code --unstaged "\
+  sh "pronto run #{formatter} -c origin/main --no-exit-code --unstaged " \
      "|| true"
   sh "pronto run #{formatter} -c origin/main --no-exit-code --staged || true"
   sh "pronto run #{formatter} -c origin/main --no-exit-code || true"
