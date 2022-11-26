@@ -11,7 +11,7 @@ describe Pronto::BigFiles do
       # our control
       #
       # Save existing RUBYOPT if set; bundler uses it
-      'RUBYOPT' => [ENV['RUBYOPT'], '-W0'].compact.join(' '),
+      'RUBYOPT' => [ENV.fetch('RUBYOPT', nil), '-W0'].compact.join(' '),
     }
   end
 
@@ -64,9 +64,9 @@ describe Pronto::BigFiles do
             'and is above limit' do
       let(:expected_output) do
         "one_line_added_above_limit.rb:302 W: This file, one of the " \
-        "3 largest in the project, increased in size to 302 lines.  " \
-        "The total size of those files is now 502 lines (target: 300).  " \
-        "Is this file complex enough to refactor?\n"
+          "3 largest in the project, increased in size to 302 lines.  " \
+          "The total size of those files is now 502 lines (target: 300).  " \
+          "Is this file complex enough to refactor?\n"
       end
 
       let(:example_files_committed) do
